@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #weather-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="weather-container">
+        <h2>Weather App</h2>
+        <label for="city">Enter city:</label>
+        <input type="text" id="city" placeholder="Enter city">
+        <button onclick="getWeather()">Get Weather</button>
+
+        <div id="weather-info"></div>
+    </div>
+
+    <script>
+        function getWeather() {
+            const apiKey = ''; //replace with your api key
+            const city = document.getElementById('city').value;
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    console.log( data);
+                    displayWeather(data);
+                })
+                .catch(error => {
+                    console.log('Error fetching weather data:', error);
+                });
+        }
+
+        function displayWeather(data) {
+            const weatherInfoContainer = document.getElementById('weather-info');
+
+                const temperature = data.main.temp;
+                const description = data.weather[0].description;
+                const humidity = data.main.humidity;
+                const name = data.name;
+
+                weatherInfoContainer.innerHTML = `
+                    <p>Temperature: ${temperature} °C</p>
+                    <p>Description: ${description}</p>
+                    <p>Humidity: ${humidity}</P>
+                    <p>Location: ${name}</p>    
+                `;
+            }
+        
+    </script>
+
+</body>
+</html>
